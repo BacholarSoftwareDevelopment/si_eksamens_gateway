@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class GatewayController {
@@ -21,7 +22,11 @@ public class GatewayController {
 
     @GetMapping("/message/{userId}/{topic}")
     public List<Message> receiveMessage(@PathVariable("userId") String userId, @PathVariable("topic") String topic){
-        return messageReceiveClient.receive(userId, topic);
+        return messageReceiveClient.receive()
+                .stream()
+                .filter(message -> message.getId() == Long.parseLong(userId))
+                .filter(message -> message.getTopic().equals(topic))
+                .collect(Collectors.toList());
     }
 
 }

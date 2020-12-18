@@ -10,12 +10,5 @@ public interface MessageClient {
 
     @PostMapping("/kafka/message")
     String send(Message message);
-}
 
-//@FeignClient("server")
-//@RibbonClient(name = "server", configuration = RibbonConfig.class)
-//public interface MessageClient {
-//
-//    @PostMapping("/test")
-//    String test(Message message);
-//}
+}
