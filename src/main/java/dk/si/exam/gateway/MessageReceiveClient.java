@@ -2,14 +2,17 @@ package dk.si.exam.gateway;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient("producer")
-@RibbonClient(name = "producer", configuration = RibbonConfig.class)
-public interface MessageClient {
+import java.util.List;
 
-    @PostMapping("/kafka/message")
-    String send(Message message);
+@FeignClient("consumer")
+@RibbonClient(name = "consumer", configuration = RibbonConfig.class)
+public interface MessageReceiveClient {
+
+    @GetMapping("/kafka/message/{userId}/{topic}")
+    List<Message> receive(String userId, String topic);
 }
 
 //@FeignClient("server")
